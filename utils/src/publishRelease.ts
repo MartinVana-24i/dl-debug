@@ -41,11 +41,11 @@ gitUtils.addAll();
 gitUtils.commit(targetVersion, GIT_VERIFY_FLAG);
 gitUtils.push(RELEASE_BRANCH, GIT_VERIFY_FLAG)
 
-console.log('Publishing package to NPM');
+console.log('Publishing package to NPM...');
 cmdUtils.cmdSyncInheritOut('npm publish --dry-run');
 
-console.log('Creating release on GitHub');
+console.log('Creating release on GitHub...');
 cmdUtils.cmdSyncInheritOut(`gh release create v${targetVersion} --target ${RELEASE_BRANCH} --generate-notes`);
 
-console.log('Creating pull request on GitHub');
+console.log('Creating pull request on GitHub...');
 cmdUtils.cmdSyncInheritOut(`gh pr create --title "release ${targetVersion}" --body "" --head ${RELEASE_BRANCH} --base ${MAIN_BRANCH}`);
