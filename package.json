@@ -1,6 +1,6 @@
 {
   "name": "dl-debug",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "just a testing package.json",
   "main": "index.js",
   "scripts": {
