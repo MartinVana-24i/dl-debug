@@ -1,8 +1,17 @@
+import { ok } from 'assert';
 import * as cmdUtils from '@24i/smartapps-bigscreen-rnv-build-engine/dist/src/scripts/utils/cmdUtils.js';
 import * as gitUtils from '@24i/smartapps-bigscreen-rnv-build-engine/dist/src/scripts/utils/gitUtils.js';
 
 const MAIN_BRANCH = 'development';
-const VERIFY_FLAG = false;
+const CHECKS = 'npm run lintcheck && npm run typecheck && npm run test';
+const GIT_VERIFY_FLAG = false;
+
+// check if GitHub cli is available
+try {
+    ok(cmdUtils.cmdSyncTrimOut('gh --version'));
+} catch (error) {
+    throw new Error('GitHub cli (gh) is not installed! See https://cli.github.com/\n');
+}
 
 // make sure we're on the lastest dev branch with no local changes
 gitUtils.assertCurrentBranch(MAIN_BRANCH);
@@ -10,7 +19,7 @@ gitUtils.assertEmptyStatusList();
 gitUtils.pull();
 
 // make sure that everything actually works
-cmdUtils.cmdSyncInheritOut('npm run lintcheck && npm run typecheck && npm run test');
+cmdUtils.cmdSyncInheritOut(CHECKS);
 
 // bump the version
 const bumpType = process.argv[2] || 'patch'; // major | minor | patch | X.Y.Z
@@ -24,14 +33,14 @@ const RELEASE_BRANCH = `release/${targetVersion}`;
 gitUtils.createBranch(RELEASE_BRANCH);
 gitUtils.checkout(RELEASE_BRANCH);
 gitUtils.addAll();
-gitUtils.commit(targetVersion, VERIFY_FLAG);
-gitUtils.push(RELEASE_BRANCH, VERIFY_FLAG)
+gitUtils.commit(targetVersion, GIT_VERIFY_FLAG);
+gitUtils.push(RELEASE_BRANCH, GIT_VERIFY_FLAG)
 
 // publish the package on NPM
 cmdUtils.cmdSyncInheritOut('npm publish --dry-run');
 
-// create release on GitHUB
-cmdUtils.cmdSyncInheritOut(`hub release create -t ${RELEASE_BRANCH} v${targetVersion}`);
+// create release on GitHub
+cmdUtils.cmdSyncInheritOut(`gh release create v${targetVersion} -target ${RELEASE_BRANCH} --generate-notes`);
 
 // create pull request into development with updated version files
-gitUtils.pullRequest(RELEASE_BRANCH, MAIN_BRANCH, `release ${targetVersion}`);
+cmdUtils.cmdSyncInheritOut(`gh pr create --title "release ${targetVersion}" --body "" --head ${RELEASE_BRANCH} --base ${MAIN_BRANCH}`);
