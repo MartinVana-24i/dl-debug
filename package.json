@@ -1,0 +1,25 @@
+{
+  "name": "dl-debug",
+  "version": "1.0.0",
+  "description": "just a testing package.json",
+  "main": "index.js",
+  "scripts": {
+    "lintcheck": "echo \"lintcheck done!\"",
+    "typecheck": "echo \"typecheck done!\"",
+    "test": "echo \"tests done!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MartinVana-24i/dl-debug.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MartinVana-24i/dl-debug/issues"
+  },
+  "homepage": "https://github.com/MartinVana-24i/dl-debug#readme",
+  "devDependencies": {
+    "@24i/smartapps-bigscreen-rnv-build-engine": "^0.17.4",
+    "typescript": "^4.8.3"
+  }
+}
