@@ -15,7 +15,7 @@ try {
 
 // check if GitHub cli is authenticated
 try {
-    ok(cmdUtils.cmdSyncTrimOut('gh auth status'));
+    ok(cmdUtils.cmdSync('gh auth status'));
 } catch (error) {
     throw new Error('You need to authenticate using gh auth login.');
 }
@@ -31,9 +31,7 @@ cmdUtils.cmdSyncInheritOut(CHECKS);
 // bump the version
 const bumpType = process.argv[2] || 'patch'; // major | minor | patch | X.Y.Z
 cmdUtils.cmdSyncInheritOut(`npm --no-git-tag-version version ${bumpType}`);
-const targetVersion = cmdUtils.cmdSyncPipeOut('npm pkg get version')
-    .toString()
-    .replace(/"/g, '');
+const targetVersion = cmdUtils.cmdSyncTrimOut('npm pkg get version').replace(/"/g, '');
 const RELEASE_BRANCH = `release/${targetVersion}`;
 
 // create release branch and push it to origin
