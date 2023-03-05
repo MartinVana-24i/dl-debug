@@ -6,7 +6,9 @@
   "scripts": {
     "lintcheck": "echo \"lintcheck done!\"",
     "typecheck": "echo \"typecheck done!\"",
-    "test": "echo \"tests done!\""
+    "test": "echo \"tests done!\"",
+    "prepare": "tsc utils/src/publishRelease.ts --outDir utils/dist",
+    "publishRelease": "node ./utils/dist/publishRelease.js"
   },
   "repository": {
     "type": "git",
