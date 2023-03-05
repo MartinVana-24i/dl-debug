@@ -13,6 +13,13 @@ try {
     throw new Error('GitHub cli (gh) is not installed! See https://cli.github.com/\n');
 }
 
+// check if GitHub cli is authenticated
+try {
+    ok(cmdUtils.cmdSyncTrimOut('gh auth status'));
+} catch (error) {
+    throw new Error('You need to authenticate using gh auth login.');
+}
+
 // make sure we're on the lastest dev branch with no local changes
 gitUtils.assertCurrentBranch(MAIN_BRANCH);
 gitUtils.assertEmptyStatusList();
