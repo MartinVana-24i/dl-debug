@@ -45,7 +45,7 @@ gitUtils.push(RELEASE_BRANCH, GIT_VERIFY_FLAG)
 cmdUtils.cmdSyncInheritOut('npm publish --dry-run');
 
 // create release on GitHub
-cmdUtils.cmdSyncInheritOut(`gh release create v${targetVersion} -target ${RELEASE_BRANCH} --generate-notes`);
+cmdUtils.cmdSyncInheritOut(`gh release create v${targetVersion} --target ${RELEASE_BRANCH} --generate-notes`);
 
 // create pull request into development with updated version files
 cmdUtils.cmdSyncInheritOut(`gh pr create --title "release ${targetVersion}" --body "" --head ${RELEASE_BRANCH} --base ${MAIN_BRANCH}`);
