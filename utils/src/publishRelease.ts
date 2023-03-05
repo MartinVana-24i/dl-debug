@@ -6,7 +6,7 @@ const VERIFY_FLAG = false;
 
 // make sure we're on the lastest dev branch with no local changes
 gitUtils.assertCurrentBranch(MAIN_BRANCH);
-// gitUtils.assertEmptyStatusList();
+gitUtils.assertEmptyStatusList();
 gitUtils.pull();
 
 // make sure that everything actually works
@@ -14,7 +14,7 @@ cmdUtils.cmdSyncInheritOut('npm run lintcheck && npm run typecheck && npm run te
 
 // bump the version
 const bumpType = process.argv[2] || 'patch'; // major | minor | patch | X.Y.Z
-// cmdUtils.cmdSyncInheritOut(`npm --no-git-tag-version version ${bumpType}`);
+cmdUtils.cmdSyncInheritOut(`npm --no-git-tag-version version ${bumpType}`);
 const targetVersion = cmdUtils.cmdSyncPipeOut('npm pkg get version')
     .toString()
     .replace(/"/g, '');
